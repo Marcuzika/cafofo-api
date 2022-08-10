@@ -1,21 +1,21 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNumber } from 'class-validator';
 
 export class CreatePropertyDto {
   @IsNumber()
-  price: number;
+  area: number;
 
   @IsNumber()
   bedrooms: number;
 
   @IsNumber()
-  area: number;
+  complexFee: number;
 
-  @IsString()
-  name: string;
+  @IsBoolean()
+  isMarketplace: boolean;
 
-  // @IsDateString()
-  // createdAt: Date;
+  @IsBoolean()
+  isRentable: boolean;
 
-  // @IsNumber()
-  // createdAtTimeStamp: number;
+  @IsNumber()
+  price: number;
 }

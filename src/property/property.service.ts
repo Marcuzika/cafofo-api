@@ -1,23 +1,25 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 
+import { Repository } from 'typeorm';
+
+import { PropertyEntity } from './entity/property.entity';
 import { CreatePropertyDto } from './dto/create-property.dto';
 
 @Injectable()
 export class PropertyService {
-  private readonly properties = [];
+  constructor(
+    @InjectRepository(PropertyEntity)
+    private propertyRepository: Repository<PropertyEntity>,
+  ) {}
 
-  postProperty(createBodyDto: CreatePropertyDto) {
-    const createdAtTimeStamp = Date.now().toString();
-
-    this.properties.push({
-      ...createBodyDto,
-      createdAtTimeStamp,
-    });
-
-    return this.properties[this.properties.length - 1];
+  async postProperty(createBodyDto: CreatePropertyDto) {
+    const property = await this.propertyRepository.save(createBodyDto);
+    return property;
   }
 
-  getProperties() {
-    return this.properties;
+  async getProperties() {
+    const properties = await this.propertyRepository.find({});
+    return properties;
   }
 }
